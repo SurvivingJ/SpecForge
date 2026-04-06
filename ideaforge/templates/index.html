@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IdeaForge</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.5.1/github-markdown-light.min.css">
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <header>
+        <h1>IdeaForge</h1>
+        <p class="subtitle">Multi-agent specification builder</p>
+    </header>
+
+    <main id="app">
+        <!-- Idea Submission Form -->
+        <section id="idea-form" class="form-section">
+            <div class="form-card">
+                <h2>Describe your idea</h2>
+                <textarea id="idea-input" placeholder="Enter your idea here... Be as detailed or brief as you like." rows="6"></textarea>
+
+                <h3>Depth of interrogation</h3>
+                <div class="depth-selector">
+                    <label class="depth-option">
+                        <input type="radio" name="depth" value="shallow">
+                        <span class="depth-badge shallow">Shallow</span>
+                        <span class="depth-desc">~10-15 questions, broad strokes</span>
+                    </label>
+                    <label class="depth-option">
+                        <input type="radio" name="depth" value="medium" checked>
+                        <span class="depth-badge medium">Medium</span>
+                        <span class="depth-desc">~25-40 questions, functional requirements</span>
+                    </label>
+                    <label class="depth-option">
+                        <input type="radio" name="depth" value="deep">
+                        <span class="depth-badge deep">Deep</span>
+                        <span class="depth-desc">~50-80 questions, architecture decisions</span>
+                    </label>
+                    <label class="depth-option">
+                        <input type="radio" name="depth" value="abyss">
+                        <span class="depth-badge abyss">Abyss</span>
+                        <span class="depth-desc">Unlimited — continues until you finalise</span>
+                    </label>
+                </div>
+
+                <button id="submit-idea" class="btn btn-primary">Start Specification</button>
+            </div>
+        </section>
+
+        <!-- Two-Panel Layout (hidden until project starts) -->
+        <section id="workspace" class="workspace hidden">
+            <!-- Left Panel: Q&A -->
+            <div class="panel panel-left">
+                <div id="idea-summary" class="idea-summary collapsed">
+                    <div class="idea-summary-header" onclick="toggleIdeaSummary()">
+                        <span>Your Idea</span>
+                        <span class="chevron">&#9660;</span>
+                    </div>
+                    <div class="idea-summary-content"></div>
+                </div>
+
+                <div id="round-info" class="round-info">
+                    <span id="round-badge" class="round-badge">Round 1</span>
+                    <span id="depth-indicator" class="depth-indicator"></span>
+                    <div id="progress-bar" class="progress-bar">
+                        <div id="progress-fill" class="progress-fill"></div>
+                    </div>
+                </div>
+
+                <div id="questions-container" class="questions-container">
+                    <div id="loading-questions" class="loading">
+                        <div class="spinner"></div>
+                        <p>Agents are analysing your idea...</p>
+                    </div>
+                    <div id="questions-list" class="questions-list hidden"></div>
+                </div>
+
+                <div id="action-buttons" class="action-buttons hidden">
+                    <button id="submit-answers" class="btn btn-primary">Submit Answers</button>
+                    <button id="finalise-btn" class="btn btn-finalise" disabled>Finalise Spec</button>
+                </div>
+            </div>
+
+            <!-- Right Panel: Activity / Wiki -->
+            <div class="panel panel-right">
+                <div id="right-panel-toggle" class="panel-toggle">
+                    <button class="toggle-btn active" data-panel="activity">Activity Feed</button>
+                    <button class="toggle-btn" data-panel="query">Query Wiki</button>
+                </div>
+
+                <!-- Activity Feed -->
+                <div id="activity-panel" class="sub-panel">
+                    <div id="activity-log" class="activity-log"></div>
+                </div>
+
+                <!-- Wiki Query -->
+                <div id="query-panel" class="sub-panel hidden">
+                    <div id="query-messages" class="query-messages"></div>
+                    <div class="query-input-row">
+                        <input type="text" id="query-input" placeholder="Ask about the spec..." />
+                        <button id="query-submit" class="btn btn-small">Ask</button>
+                    </div>
+                </div>
+
+                <!-- Wiki Renderer (shown after finalise) -->
+                <div id="wiki-panel" class="sub-panel hidden">
+                    <div id="wiki-tabs" class="wiki-tabs"></div>
+                    <div id="wiki-content" class="markdown-body"></div>
+                    <button id="export-btn" class="btn btn-export">Export as .zip</button>
+                </div>
+
+                <!-- Respec Modal -->
+                <div id="respec-modal" class="modal hidden">
+                    <div class="modal-content">
+                        <h3>Respec this section</h3>
+                        <p id="respec-selection" class="respec-selection"></p>
+                        <textarea id="respec-instruction" placeholder="What would you like to change?" rows="3"></textarea>
+                        <div class="modal-actions">
+                            <button id="respec-cancel" class="btn btn-small">Cancel</button>
+                            <button id="respec-submit" class="btn btn-primary btn-small">Respec</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/12.0.1/marked.min.js"></script>
+    <script src="/static/app.js"></script>
+</body>
+</html>
